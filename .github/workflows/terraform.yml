@@ -67,7 +67,7 @@ permissions:
   contents: read
 
 jobs:
-  get-environments:
+  getenvironments:
     runs-on: ubuntu-latest
     # if: ${{ github.events.inputs['warning-ack'] == 'true' }} 
     steps:
@@ -97,10 +97,10 @@ jobs:
 
   print-vars:
     runs-on: ubuntu-latest
-    needs: get-environments
+    needs: getenvironments
     strategy:
       matrix:
-        environment:[${{ fromJSON(outputs.get_envs) }}]
+        environment:[${{ fromJSON(needs.getenvironments.outputs.get_envs) }}]
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
