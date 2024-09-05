@@ -70,8 +70,10 @@ jobs:
   getenvironments:
     runs-on: ubuntu-latest
     # if: ${{ github.events.inputs['warning-ack'] == 'true' }} 
+    outputs:
+      envnames: ${{ steps.get_envs.outputs.envnames }}
     steps:
-    - name: Get Env-names
+    - name: Get env names
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         SELECTED_GROUP: ${{ inputs.environmentGroup }}
@@ -93,14 +95,14 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        echo "get_envs=$env_names" >> $GITHUB_OUTPUT
+        echo "envnames=$env_names" >> "$GITHUB_OUTPUT"
 
   print-vars:
     runs-on: ubuntu-latest
     needs: getenvironments
     strategy:
       matrix:
-        environment:[${{ fromJson(jobs.getenvironments.outputs.get_envs) }}]
+        environment:${{ fromJson(needs.getenvironments.outputs.get_envs) }}
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
