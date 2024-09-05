@@ -69,18 +69,18 @@ permissions:
 jobs:
   get-environments:
     runs-on: ubuntu-latest
-    # if: ${{ inputs.warning-ack == 'true' }} 
+    # if: ${{ github.events.inputs['warning-ack'] == 'true' }} 
     steps:
     - name: Get Env-names
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        SELECTED_GROUP: ${{ github.events.inputs.environment }}
+        SELECTED_GROUP: ${{ github.events.inputs.environmentGroup }}
       id: get_envs
       run: |
         response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
           "https://api.github.com/repos/${{ github.repository }}/environments")
         # some debugging
-        echo "Warning boolean: ${{ inputs.warning-ack }}"
+        echo "Warning boolean: ${{ inputs['warning-ack'] }}"
         echo "Curl response: $response "
         echo "Selected group $SELECTED_GROUP"
           
@@ -94,7 +94,6 @@ jobs:
         
         env_names=${env_names%,}
         echo "Selected env names: $env_names" 
-        echo "env_names<<EOF" >> "$GITHUB_OUTPUT"
         echo "$env_names" >> "$GITHUB_OUTPUT"
         echo "EOF" >> "$GITHUB_OUTPUT"  
 
