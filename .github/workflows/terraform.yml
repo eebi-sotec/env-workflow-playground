@@ -95,7 +95,7 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        json_array=$(echo "$env_names" | sed 's/,/","/g; s/^/["/; s/$/"]/; s/,""/g; s/,\s*"]$/]/')
+        json_array=$(echo "$env_names" | tr ',' '\n' | sed '/^$/d' | sed 's/^/"/; s/$/"/' | paste -sd, | sed 's/^/[/; s/$/]/')
         echo "Supposed json-array: $json_array"
         echo "envnames=$json_array" >> "$GITHUB_OUTPUT"
         
