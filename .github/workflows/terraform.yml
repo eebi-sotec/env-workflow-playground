@@ -109,6 +109,7 @@ jobs:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
         echo "The secret for environment ${{ matrix.environment }} is: ${{ secrets.SOME_SECRET }}"
+        echo "The var for environment ${{ matrix.environment }} is: $SOME_VAR"
 
       
 #  terraform:
