@@ -87,6 +87,7 @@ jobs:
           env_names=$(echo "$response" | jq -r '.[].name' | tr '\n' ',')
         fi
         
+        env_names=${env_names%,}
         echo "::set-output name=env_names::$env_names"  
 
   print-vars:
@@ -94,7 +95,7 @@ jobs:
     needs: get-environments
     strategy:
       matrix:
-        environment: ${{ fromJson(needs.get-environments.outputs.env_names | toJson) }}
+        environment: [${{ needs.get-environments.outputs.env_names }}]
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
