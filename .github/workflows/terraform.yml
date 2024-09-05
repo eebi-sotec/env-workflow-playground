@@ -93,7 +93,7 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        echo "::set-output name=get_envs::$env_names" 
+        echo "get_envs=$env_names" >> $GITHUB_OUTPUT
 
   print-vars:
     runs-on: ubuntu-latest
