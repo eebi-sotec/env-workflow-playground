@@ -88,14 +88,14 @@ jobs:
         fi
         
         env_names=${env_names%,}
-        echo "::set-output name=env_names::$env_names"  
+        echo $env_names >> "$GITHUB_OUTPUT  
 
   print-vars:
     runs-on: ubuntu-latest
     needs: get-environments
     strategy:
       matrix:
-        environment: [${{ needs.get-environments.outputs.env_names }}]
+        environment: ${{ fromJSON(needs.get-environments.outputs.get_envs) }}
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
