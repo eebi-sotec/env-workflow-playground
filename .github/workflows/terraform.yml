@@ -93,14 +93,14 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        echo "env_names=$env_names" >> "$GITHUB_ENV"
+        echo "::set-output name=get_envs::$env_names" 
 
   print-vars:
     runs-on: ubuntu-latest
     needs: getenvironments
     strategy:
       matrix:
-        environment:[${{ needs.getenvironments.outputs.get_envs }}]
+        environment:[${{ fromJson(needs.getenvironments.outputs.get_envs) }}]
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
