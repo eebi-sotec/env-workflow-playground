@@ -93,9 +93,7 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        echo "env_names<<EOF" >> "$GITHUB_OUTPUT"
-        echo "$env_names" >> "$GITHUB_OUTPUT"
-        echo "EOF" >> "$GITHUB_OUTPUT"
+        echo "env_names=$env_names" >> "$GITHUB_ENV"
 
   print-vars:
     runs-on: ubuntu-latest
