@@ -74,7 +74,7 @@ jobs:
     - name: Get Env-names
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        SELECTED_GROUP: ${{ github.events.inputs.environmentGroup }}
+        SELECTED_GROUP: ${{ inputs.environmentGroup }}
       id: get_envs
       run: |
         response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
@@ -94,6 +94,7 @@ jobs:
         
         env_names=${env_names%,}
         echo "Selected env names: $env_names" 
+        echo "env_names<<EOF" >> "$GITHUB_OUTPUT"
         echo "$env_names" >> "$GITHUB_OUTPUT"
         echo "EOF" >> "$GITHUB_OUTPUT"  
 
