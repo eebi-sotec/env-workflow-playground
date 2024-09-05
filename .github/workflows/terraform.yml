@@ -95,14 +95,15 @@ jobs:
         fi
         
         echo "Selected env names: $env_names" 
-        echo "envnames=$env_names" >> "$GITHUB_OUTPUT"
-
+        json_array=$(echo "$env_names" | sed 's/,/","/g' | sed 's/^/["/' | sed 's/$/"]/')
+        echo "envnames=$json_array" >> "$GITHUB_OUTPUT"
+        
   print-vars:
     runs-on: ubuntu-latest
     needs: getenvironments
     strategy:
       matrix:
-        environment: ${{ toJson(needs.getenvironments.outputs) }}
+        environment: ${{ fromJson(needs.getenvironments.outputs) }}
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
