@@ -84,12 +84,12 @@ jobs:
         echo "Curl response: $response "
         echo "Selected group $SELECTED_GROUP"
           
-        if [ "$SELECTED_GROUP" == "Test"]; then
-          env_names=$(echo "$response" | jq -r '.[].name | select(startswith("production_"))' | tr '\n' ',')
-        elif [ "$SELECTED_GROUP" == "Prod"]; then
-          env_names=$(echo "$response" | jq -r '.[].name | select(startswith("play"))' | tr '\n' ',')
+        if [ "$SELECTED_GROUP" == "Test" ]; then
+          env_names=$(echo "$response" | jq -r '.environments[] | select(.name | startswith("production_")) | .name' | tr '\n' ',')
+        elif [ "$SELECTED_GROUP" == "Prod" ]; then
+          env_names=$(echo "$response" | jq -r '.environments[] | select(.name | startswith("play")) | .name' | tr '\n' ',')
         else 
-          env_names=$(echo "$response" | jq -r '.[].name' | tr '\n' ',')
+          env_names=$(echo "$response" | jq -r '.environments[].name' | tr '\n' ',')
         fi
         
         env_names=${env_names%,}
