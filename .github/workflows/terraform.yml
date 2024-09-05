@@ -92,9 +92,10 @@ jobs:
           env_names=$(echo "$response" | jq -r '.environments[].name' | tr '\n' ',')
         fi
         
-        env_names=${env_names%,}
         echo "Selected env names: $env_names" 
+        echo "env_names<<EOF" >> "$GITHUB_OUTPUT"
         echo "$env_names" >> "$GITHUB_OUTPUT"
+        echo "EOF" >> "$GITHUB_OUTPUT"
 
   print-vars:
     runs-on: ubuntu-latest
