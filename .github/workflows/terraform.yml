@@ -102,7 +102,7 @@ jobs:
     needs: getenvironments
     strategy:
       matrix:
-        environment:${{ fromJson(needs.getenvironments.outputs.get_envs) }}
+        environment: ${{ toJson(needs.getenvironments.outputs) }}
     steps:
     - name: "Print ${{ matrix.environment }} Env-vars"
       run: |
